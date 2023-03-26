@@ -4,12 +4,13 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-pytest = "*"
 pydantic = "*"
 fastapi = {extras = ["all"], version = "*"}
-ulid = "*"
+edgedb = "*"
 
 [dev-packages]
+pytest = "*"
+ipython = "*"
 
 [requires]
 python_version = "3.10"
