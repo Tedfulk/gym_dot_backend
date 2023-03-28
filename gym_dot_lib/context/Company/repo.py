@@ -1,8 +1,6 @@
-from .models import CompanyUpdates, NewCompany, Company
+from .models import CompanyUpdates, NewCompany
+from gym_dot_lib.context import client
 import pydantic
-import edgedb
-
-client = edgedb.create_client()
 
 
 class CompanyRepo:
@@ -17,7 +15,7 @@ class CompanyRepo:
         """
         return client.query(
             """
-            INSERT company::Company {
+            insert company::Company {
                 name := <str>$name,
             }
         """,
@@ -29,17 +27,18 @@ class CompanyRepo:
         Example:
             CompanyRepo.get(id='1bd1374c-ca62-11ed-acf2-4fed2a055fdb')
         """
-        return client.query_single(
+        return client.query(
             """
-            SELECT company::Company {
+            select company::Company {
                 id,
                 name,
             }
-            FILTER .id = <uuid>$id
+            filter .id = <uuid>$id
         """,
             id=id,
         )
 
+    @pydantic.validate_arguments
     def update(id: str, updates: CompanyUpdates):
         """Update a Company by id.
         Example:
@@ -47,9 +46,9 @@ class CompanyRepo:
         """
         return client.query(
             """
-            UPDATE company::Company
-            FILTER .id = <uuid>$id
-            SET {
+            update company::Company
+            filter .id = <uuid>$id
+            set {
                 name := <str>$name,
             }
         """,
@@ -64,8 +63,8 @@ class CompanyRepo:
         """
         return client.query(
             """
-            DELETE company::Company
-            FILTER .id = <uuid>$id
+            delete company::Company
+            filter .id = <uuid>$id
         """,
             id=id,
         )
@@ -77,9 +76,16 @@ class CompanyRepo:
         """
         return client.query(
             """
-            SELECT company::Company {
+            select company::Company {
                 id,
                 name,
+                facility: {
+                    id,
+                    address,
+                    city,
+                    name,
+                    state
             }
+        }
         """
         )
