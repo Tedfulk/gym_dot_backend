@@ -1,0 +1,4 @@
+select Facilities {
+    id,
+    name,
+}

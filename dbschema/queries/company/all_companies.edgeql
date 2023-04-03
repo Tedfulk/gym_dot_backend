@@ -1,0 +1,4 @@
+select Companies {
+        id,
+        name,
+}
