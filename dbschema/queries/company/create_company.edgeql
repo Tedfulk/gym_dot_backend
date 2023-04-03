@@ -1,3 +1,3 @@
-insert company::Company {
-    name := <str>$name,
+insert Companies {
+    name := <str>$company_name,
 }

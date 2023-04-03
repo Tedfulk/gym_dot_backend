@@ -1,2 +1,2 @@
-delete company::Company
-            filter .id = <uuid>$id
+delete Companies
+    filter .id = <uuid>$company_id

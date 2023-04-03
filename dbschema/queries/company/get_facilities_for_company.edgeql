@@ -1,4 +1,4 @@
-select company::Company {
+select Companies {
     id,
     name,
     facility: {
@@ -9,4 +9,4 @@ select company::Company {
         state
     }
 } 
-filter .id=<uuid>$id
+filter .id=<uuid>$company_id

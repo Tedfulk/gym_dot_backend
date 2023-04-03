@@ -1,2 +1,2 @@
-delete company::Facilities 
+delete Facilities 
     filter .id = <uuid>$id

@@ -1,4 +1,4 @@
-select company::Company {
+select Companies {
         id,
         name,
 }

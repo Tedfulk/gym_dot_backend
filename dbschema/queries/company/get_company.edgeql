@@ -1,5 +1,5 @@
-select company::Company {
-                id,
-                name,
-            }
-            filter .id = <uuid>$id
+select Companies {
+        id,
+        name,
+    }
+    filter .id = <uuid>$company_id

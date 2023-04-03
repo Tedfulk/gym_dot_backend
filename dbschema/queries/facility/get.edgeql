@@ -1,4 +1,4 @@
-select company::Facilities {
+select Facilities {
     id,
     name,
     address,

@@ -1,5 +1,5 @@
-update company::Company
-    filter .id = <uuid>$id
+update Companies
+    filter .id = <uuid>$company_id
     set {
-        name := <str>$name,
+        name := <str>$company_name,
     }

@@ -1,4 +1,4 @@
-update company::Facilities
+update Facilities
     filter .id = <uuid>$id
     set {
         name := <str>$name,
