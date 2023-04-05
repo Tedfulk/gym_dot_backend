@@ -36,12 +36,20 @@ module default {
     type Classes {
         property class_dates -> array<cal::local_date>;
         property class_tmies -> array<cal::local_time>;
-        property len_of_class_time -> duration;
+        property len_of_class_time -> int32 {
+            default := 60
+        };
         property active -> bool {
             default := True;
         };
-        property max_attendees -> int16 {
+        property max_attendees -> int32 {
             constraint min_value(1);
+        };
+        property min_attendees -> int32 {
+            constraint min_value(1);
+        };
+        property waitlist -> int32 {
+            default := 10;
         };
     }
 }
