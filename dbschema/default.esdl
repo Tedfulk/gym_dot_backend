@@ -32,14 +32,14 @@ module default {
         property active -> bool {
             default := True;
         };
-        multi link class -> Classes {
+        multi link lesson -> Lessons {
             constraint exclusive;
         };
     }
     
-    type Classes {
+    type Lessons {
         property class_dates -> array<cal::local_date>;
-        property class_tmies -> array<cal::local_time>;
+        property class_times -> array<cal::local_time>;
         property len_of_class_time -> int32 {
             default := 60
         };

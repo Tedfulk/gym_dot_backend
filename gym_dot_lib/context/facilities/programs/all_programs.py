@@ -7,31 +7,29 @@ from edgedb import AsyncIOExecutor
 from pydantic import BaseModel, parse_raw_as
 
 EDGEQL_QUERY = r"""
-select Facilities {
+select Programs {
     id,
     name,
-    address,
-    city,
-    state,
+    description,
+    active,
 }
 """
 
 
-class AllFacilitiesResult(BaseModel):
+class AllProgramsResult(BaseModel):
     id: UUID
     name: str
-    address: str | None
-    city: str | None
-    state: str | None
+    description: str | None
+    active: bool | None
 
 
-async def all_facilities(
+async def all_programs(
     executor: AsyncIOExecutor,
-) -> list[AllFacilitiesResult]:
+) -> list[AllProgramsResult]:
     resp = await executor.query_json(
         EDGEQL_QUERY,
     )
     parsed = await asyncio.to_thread(
-        parse_raw_as, list[AllFacilitiesResult], resp, json_loads=orjson.loads
+        parse_raw_as, list[AllProgramsResult], resp, json_loads=orjson.loads
     )
-    return cast(list[AllFacilitiesResult], parsed)
+    return cast(list[AllProgramsResult], parsed)
