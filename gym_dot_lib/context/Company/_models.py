@@ -1,5 +1,5 @@
 from pydantic import BaseModel, constr
-from gym_dot_lib.context.facilities.models import Facility
+from gym_dot_lib.context.facilities._models import Facility
 
 
 class CompanyUpdates(BaseModel):

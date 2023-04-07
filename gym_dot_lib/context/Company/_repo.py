@@ -1,4 +1,4 @@
-from .models import CompanyUpdates, NewCompany
+from ._models import CompanyUpdates, NewCompany
 from gym_dot_lib.context import client
 import pydantic
 

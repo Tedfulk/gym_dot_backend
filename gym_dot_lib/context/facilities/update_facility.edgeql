@@ -1,4 +1,5 @@
-update Facilities
+select (
+    update Facilities
     filter .id = <uuid>$id
     set {
         name := <str>$name,
@@ -6,3 +7,10 @@ update Facilities
         city := <str>$city,
         state := <str>$state,
     }
+) {
+    id,
+    name,
+    address,
+    city,
+    state,
+}
