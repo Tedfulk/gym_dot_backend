@@ -21,7 +21,9 @@ module default {
         property state -> str {
         constraint max_len_value(2);
         }
-        multi link program -> Programs;
+        multi link program -> Programs {
+            constraint exclusive;
+        };
     }
 
     type Programs {
@@ -30,7 +32,9 @@ module default {
         property active -> bool {
             default := True;
         };
-        multi link class -> Classes;
+        multi link class -> Classes {
+            constraint exclusive;
+        };
     }
     
     type Classes {

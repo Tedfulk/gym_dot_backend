@@ -1,4 +1,4 @@
-from .models import FacilityUpdates, NewFacility
+from ._models import FacilityUpdates, NewFacility
 from gym_dot_lib.context import client
 import pydantic
 
