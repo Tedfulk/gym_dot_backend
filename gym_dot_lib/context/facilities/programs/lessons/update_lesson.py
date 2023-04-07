@@ -9,7 +9,9 @@ from pydantic import BaseModel, parse_raw_as
 
 EDGEQL_QUERY = r"""
 select (
-    insert Lessons {
+    update Lessons
+    filter .id = <uuid>$id
+    set {
         class_dates := <array<cal::local_date>>$class_dates,
         class_times := <array<cal::local_time>>$class_times,
         len_of_class_time := <int32>$len_of_class_time,
@@ -31,7 +33,7 @@ select (
 """
 
 
-class CreateClassResult(BaseModel):
+class UpdateLessonResult(BaseModel):
     id: UUID
     class_dates: list[date] | None
     class_times: list[time] | None
@@ -42,9 +44,10 @@ class CreateClassResult(BaseModel):
     waitlist: int | None
 
 
-async def create_class(
+async def update_lesson(
     executor: AsyncIOExecutor,
     *,
+    id: UUID,
     class_dates: list[date],
     class_times: list[time],
     len_of_class_time: int,
@@ -52,9 +55,10 @@ async def create_class(
     max_attendees: int,
     min_attendees: int,
     waitlist: int,
-) -> CreateClassResult:
+) -> UpdateLessonResult | None:
     resp = await executor.query_single_json(
         EDGEQL_QUERY,
+        id=id,
         class_dates=class_dates,
         class_times=class_times,
         len_of_class_time=len_of_class_time,
@@ -64,6 +68,6 @@ async def create_class(
         waitlist=waitlist,
     )
     parsed = await asyncio.to_thread(
-        parse_raw_as, CreateClassResult, resp, json_loads=orjson.loads
+        parse_raw_as, UpdateLessonResult | None, resp, json_loads=orjson.loads
     )
-    return cast(CreateClassResult, parsed)
+    return cast(UpdateLessonResult | None, parsed)

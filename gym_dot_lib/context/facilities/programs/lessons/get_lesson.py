@@ -22,7 +22,7 @@ select Lessons {
 """
 
 
-class GetClassResult(BaseModel):
+class GetLessonResult(BaseModel):
     id: UUID
     class_dates: list[date] | None
     class_times: list[time] | None
@@ -33,16 +33,16 @@ class GetClassResult(BaseModel):
     waitlist: int | None
 
 
-async def get_class(
+async def get_lesson(
     executor: AsyncIOExecutor,
     *,
     class_id: UUID,
-) -> GetClassResult | None:
+) -> GetLessonResult | None:
     resp = await executor.query_single_json(
         EDGEQL_QUERY,
         class_id=class_id,
     )
     parsed = await asyncio.to_thread(
-        parse_raw_as, GetClassResult | None, resp, json_loads=orjson.loads
+        parse_raw_as, GetLessonResult | None, resp, json_loads=orjson.loads
     )
-    return cast(GetClassResult | None, parsed)
+    return cast(GetLessonResult | None, parsed)

@@ -12,20 +12,20 @@ delete Lessons
 """
 
 
-class DeleteClassResult(BaseModel):
+class DeleteLessonResult(BaseModel):
     id: UUID
 
 
-async def delete_class(
+async def delete_lesson(
     executor: AsyncIOExecutor,
     *,
     id: UUID,
-) -> DeleteClassResult | None:
+) -> DeleteLessonResult | None:
     resp = await executor.query_single_json(
         EDGEQL_QUERY,
         id=id,
     )
     parsed = await asyncio.to_thread(
-        parse_raw_as, DeleteClassResult | None, resp, json_loads=orjson.loads
+        parse_raw_as, DeleteLessonResult | None, resp, json_loads=orjson.loads
     )
-    return cast(DeleteClassResult | None, parsed)
+    return cast(DeleteLessonResult | None, parsed)
