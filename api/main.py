@@ -1,19 +1,29 @@
-import asyncio
 from fastapi import FastAPI
-from gym_dot_lib.context.main import client
-from gym_dot_lib.context.companies import all_companies
+from utils import description, Tag, servers
+from fastapi.middleware.cors import CORSMiddleware
+import companies_api
 
-# from fastapi.middleware.cors import CORSMiddleware
 
-app = FastAPI()
+app = FastAPI(
+    title="Gym Dot Lib",
+    description=description(Tag),
+    servers=servers(),
+)
 
-origins = [
-    "http://localhost:8000",
+ORIGINS = [
     "*",
 ]
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=ORIGINS,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
-@app.get("/{companies}")
-async def get_all_companies():
-    companies = all_companies(executor=client)
-    return asyncio.run(companies)
+app.include_router(
+    companies_api.app,
+    prefix="/companies",
+    tags=[Tag.companies],
+)

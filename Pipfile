@@ -7,7 +7,6 @@ name = "pypi"
 pydantic = "*"
 fastapi = {extras = ["all"], version = "*"}
 edgedb = "*"
-uvicorn = {extras = ["standard"], version = "*"}
 
 [dev-packages]
 pytest = "*"
@@ -15,3 +14,8 @@ ipython = "*"
 
 [requires]
 python_version = "3.10"
+
+[scripts]
+repo_root = "./scripts/repo_root_gdb"
+format = "./scripts/format_gdb"
+
