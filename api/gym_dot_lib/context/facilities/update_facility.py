@@ -9,7 +9,7 @@ from pydantic import BaseModel, parse_raw_as
 EDGEQL_QUERY = r"""
 select (
     update Facilities
-    filter .id = <uuid>$id
+    filter .id = <uuid>$facility_id
     set {
         name := <str>$name,
         address := <str>$address,
@@ -37,7 +37,7 @@ class UpdateFacilityResult(BaseModel):
 async def update_facility(
     executor: AsyncIOExecutor,
     *,
-    id: UUID,
+    facility_id: UUID,
     name: str,
     address: str,
     city: str,
@@ -45,7 +45,7 @@ async def update_facility(
 ) -> UpdateFacilityResult | None:
     resp = await executor.query_single_json(
         EDGEQL_QUERY,
-        id=id,
+        facility_id=facility_id,
         name=name,
         address=address,
         city=city,

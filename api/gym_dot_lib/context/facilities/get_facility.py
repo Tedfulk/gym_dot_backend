@@ -14,7 +14,7 @@ select Facilities {
     city,
     state,
     }
-    filter .id = <uuid>$id
+    filter .id = <uuid>$facility_id
 """
 
 
@@ -29,11 +29,11 @@ class GetFacilityResult(BaseModel):
 async def get_facility(
     executor: AsyncIOExecutor,
     *,
-    id: UUID,
+    facility_id: UUID,
 ) -> GetFacilityResult | None:
     resp = await executor.query_single_json(
         EDGEQL_QUERY,
-        id=id,
+        facility_id=facility_id,
     )
     parsed = await asyncio.to_thread(
         parse_raw_as, GetFacilityResult | None, resp, json_loads=orjson.loads

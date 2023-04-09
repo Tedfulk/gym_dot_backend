@@ -5,4 +5,4 @@ select Facilities {
     city,
     state,
     }
-    filter .id = <uuid>$id
+    filter .id = <uuid>$facility_id

@@ -1,2 +1,2 @@
 delete Facilities 
-    filter .id = <uuid>$id
+    filter .id = <uuid>$facility_id

@@ -1,6 +1,6 @@
 select (
     update Facilities
-    filter .id = <uuid>$id
+    filter .id = <uuid>$facility_id
     set {
         name := <str>$name,
         address := <str>$address,

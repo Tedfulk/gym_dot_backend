@@ -10,6 +10,9 @@ class Tag(StrEnum):
     """Enum to tag groups of api endpoints. Used to create the sections of the interative openapi docs."""
 
     companies = "Companies"
+    facilities = "Facilities"
+    programs = "Programs"
+    lessons = "Lessons"
 
 
 def servers():

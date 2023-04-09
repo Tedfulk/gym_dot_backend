@@ -8,7 +8,7 @@ from pydantic import BaseModel, parse_raw_as
 
 EDGEQL_QUERY = r"""
 delete Facilities 
-    filter .id = <uuid>$id
+    filter .id = <uuid>$facility_id
 """
 
 
@@ -19,11 +19,11 @@ class DeleteFacilityResult(BaseModel):
 async def delete_facility(
     executor: AsyncIOExecutor,
     *,
-    id: UUID,
+    facility_id: UUID,
 ) -> DeleteFacilityResult | None:
     resp = await executor.query_single_json(
         EDGEQL_QUERY,
-        id=id,
+        facility_id=facility_id,
     )
     parsed = await asyncio.to_thread(
         parse_raw_as, DeleteFacilityResult | None, resp, json_loads=orjson.loads
