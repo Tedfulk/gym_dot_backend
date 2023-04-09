@@ -1,6 +1,6 @@
 select (
     update Lessons
-    filter .id = <uuid>$id
+    filter .id = <uuid>$lesson_id
     set {
         class_dates := <array<cal::local_date>>$class_dates,
         class_times := <array<cal::local_time>>$class_times,

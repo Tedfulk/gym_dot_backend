@@ -1,2 +1,2 @@
 delete Programs 
-    filter .id = <uuid>$id
+    filter .id = <uuid>$program_id

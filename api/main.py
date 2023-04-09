@@ -1,7 +1,7 @@
 import companies_api
 import facilities_api
+import programs_api
 
-# import programs_api
 # import lessons_api
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -35,11 +35,11 @@ app.include_router(
     prefix="/facilities",
     tags=[Tag.facilities],
 )
-# app.include_router(
-#     programs_api.app,
-#     prefix="/programs",
-#     tags=[Tag.programs],
-# )
+app.include_router(
+    programs_api.app,
+    prefix="/programs",
+    tags=[Tag.programs],
+)
 # app.include_router(
 #     lessons_api.app,
 #     prefix="/lessons",

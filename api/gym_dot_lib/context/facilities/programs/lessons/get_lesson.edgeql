@@ -8,4 +8,4 @@ select Lessons {
     min_attendees,
     waitlist,
     }
-    filter .id = <uuid>$class_id
+    filter .id = <uuid>$lesson_id

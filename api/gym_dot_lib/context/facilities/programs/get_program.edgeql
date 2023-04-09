@@ -3,4 +3,4 @@ select Programs {
     name,
     description,
     active,
-} filter .id = <uuid>$id
+} filter .id = <uuid>$program_id

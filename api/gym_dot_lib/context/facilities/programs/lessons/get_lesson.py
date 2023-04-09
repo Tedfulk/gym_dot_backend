@@ -18,7 +18,7 @@ select Lessons {
     min_attendees,
     waitlist,
     }
-    filter .id = <uuid>$class_id
+    filter .id = <uuid>$lesson_id
 """
 
 
@@ -36,11 +36,11 @@ class GetLessonResult(BaseModel):
 async def get_lesson(
     executor: AsyncIOExecutor,
     *,
-    class_id: UUID,
+    lesson_id: UUID,
 ) -> GetLessonResult | None:
     resp = await executor.query_single_json(
         EDGEQL_QUERY,
-        class_id=class_id,
+        lesson_id=lesson_id,
     )
     parsed = await asyncio.to_thread(
         parse_raw_as, GetLessonResult | None, resp, json_loads=orjson.loads

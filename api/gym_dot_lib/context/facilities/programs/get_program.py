@@ -12,7 +12,7 @@ select Programs {
     name,
     description,
     active,
-} filter .id = <uuid>$id
+} filter .id = <uuid>$program_id
 """
 
 
@@ -26,11 +26,11 @@ class GetProgramResult(BaseModel):
 async def get_program(
     executor: AsyncIOExecutor,
     *,
-    id: UUID,
+    program_id: UUID,
 ) -> GetProgramResult | None:
     resp = await executor.query_single_json(
         EDGEQL_QUERY,
-        id=id,
+        program_id=program_id,
     )
     parsed = await asyncio.to_thread(
         parse_raw_as, GetProgramResult | None, resp, json_loads=orjson.loads

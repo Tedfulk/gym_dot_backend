@@ -10,7 +10,7 @@ from pydantic import BaseModel, parse_raw_as
 EDGEQL_QUERY = r"""
 select (
     update Lessons
-    filter .id = <uuid>$id
+    filter .id = <uuid>$lesson_id
     set {
         class_dates := <array<cal::local_date>>$class_dates,
         class_times := <array<cal::local_time>>$class_times,
@@ -47,7 +47,7 @@ class UpdateLessonResult(BaseModel):
 async def update_lesson(
     executor: AsyncIOExecutor,
     *,
-    id: UUID,
+    lesson_id: UUID,
     class_dates: list[date],
     class_times: list[time],
     len_of_class_time: int,
@@ -58,7 +58,7 @@ async def update_lesson(
 ) -> UpdateLessonResult | None:
     resp = await executor.query_single_json(
         EDGEQL_QUERY,
-        id=id,
+        lesson_id=lesson_id,
         class_dates=class_dates,
         class_times=class_times,
         len_of_class_time=len_of_class_time,

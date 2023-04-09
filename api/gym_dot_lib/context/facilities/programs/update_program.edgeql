@@ -1,6 +1,6 @@
 select (
     update Programs
-    filter .id = <uuid>$id
+    filter .id = <uuid>$program_id
     set {
         name := <str>$name,
         description := <str>$description,

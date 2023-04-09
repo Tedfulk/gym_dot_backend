@@ -1,2 +1,2 @@
 delete Lessons 
-    filter .id = <uuid>$id
+    filter .id = <uuid>$lesson_id
