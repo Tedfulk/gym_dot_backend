@@ -9,6 +9,7 @@ from gym_dot_lib.context.companies import (
     GetCompanyResult,
     GetFacilitiesResult,
     RemoveFacilityResult,
+    AddFacilityResult,
     UpdateCompanyResult,
     all_companies,
     create_company,
@@ -16,6 +17,7 @@ from gym_dot_lib.context.companies import (
     get_company,
     get_facilities,
     remove_facility,
+    add_facility,
     update_company,
 )
 from gym_dot_lib.context.main import client
@@ -59,6 +61,14 @@ def delete_company_by_id(company_id: UUID):
 def get_facilities_by_company_id(company_id: UUID):
     facilities = get_facilities(executor=client, company_id=company_id)
     return asyncio.run(facilities)
+
+
+@app.put("/{company_id}/facilities", response_model=AddFacilityResult)
+def add_facility_to_company(company_id: UUID, facility_id: UUID):
+    facility = add_facility(
+        executor=client, company_id=company_id, facility_id=facility_id
+    )
+    return asyncio.run(facility)
 
 
 @app.put("/{company_id}facilities", response_model=RemoveFacilityResult)
