@@ -6,7 +6,6 @@ import orjson
 from edgedb import AsyncIOExecutor
 from pydantic import BaseModel, parse_raw_as
 
-
 EDGEQL_QUERY = r"""
 select Companies {
         id,
