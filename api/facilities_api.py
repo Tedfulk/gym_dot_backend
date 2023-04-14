@@ -1,4 +1,3 @@
-import asyncio
 from uuid import UUID
 
 from fastapi import APIRouter
@@ -20,30 +19,27 @@ app = APIRouter()
 
 
 @app.get("", response_model=list[AllFacilitiesResult])
-def get_all_facilities():
-    facilities = all_facilities(executor=client)
-    return asyncio.run(facilities)
+async def get_all_facilities():
+    return await all_facilities(executor=client)
 
 
 @app.get("/{facility_id}", response_model=GetFacilityResult)
-def get_facility_by_id(facility_id: UUID):
-    facility = get_facility(executor=client, facility_id=facility_id)
-    return asyncio.run(facility)
+async def get_facility_by_id(facility_id: UUID):
+    return await get_facility(executor=client, facility_id=facility_id)
 
 
 @app.post("", response_model=CreateFacilityResult)
-def make_facility(name: str, address: str, city: str, state: str):
-    facility = create_facility(
+async def make_facility(name: str, address: str, city: str, state: str):
+    return await create_facility(
         executor=client, name=name, address=address, city=city, state=state
     )
-    return asyncio.run(facility)
 
 
 @app.put("/{facility_id}", response_model=UpdateFacilityResult)
-def update_facility_by_id(
+async def update_facility_by_id(
     facility_id: UUID, name: str, address: str, city: str, state: str
 ):
-    facility = update_facility(
+    return await update_facility(
         executor=client,
         facility_id=facility_id,
         name=name,
@@ -51,10 +47,8 @@ def update_facility_by_id(
         city=city,
         state=state,
     )
-    return asyncio.run(facility)
 
 
 @app.delete("/{facility_id}", response_model=DeleteFacilityResult)
-def delete_facility_by_id(facility_id: UUID):
-    facility = delete_facility(executor=client, facility_id=facility_id)
-    return asyncio.run(facility)
+async def delete_facility_by_id(facility_id: UUID):
+    return await delete_facility(executor=client, facility_id=facility_id)

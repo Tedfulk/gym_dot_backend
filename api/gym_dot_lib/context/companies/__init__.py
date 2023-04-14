@@ -6,6 +6,10 @@ from .get_company import GetCompanyResult, get_company
 from .get_facilities import GetFacilitiesResult, get_facilities
 from .remove_facility import RemoveFacilityResult, remove_facility
 from .update_company import UpdateCompanyResult, update_company
+from .create_company_and_facility import (
+    CreateCompanyAndFacilityResult,
+    create_company_and_facility,
+)
 
 __all__ = [
     "all_companies",
@@ -24,4 +28,6 @@ __all__ = [
     "AddFacilityResult",
     "get_facilities",
     "GetFacilitiesResult",
+    "create_company_and_facility",
+    "CreateCompanyAndFacilityResult",
 ]
