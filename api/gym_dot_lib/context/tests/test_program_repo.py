@@ -93,8 +93,6 @@ async def test_get_lessons(sample_program_with_lesson):
         executor=client,
         program_id=sample_program_with_lesson.id,
     )
-    print(lessons.dict())
-    print(sample_program_with_lesson.dict())
     if lessons is not None:
         assert lessons == CreateProgramWithLessonResult(
             **sample_program_with_lesson.dict()
