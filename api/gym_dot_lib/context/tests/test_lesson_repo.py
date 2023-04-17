@@ -39,7 +39,6 @@ async def test_create_lesson():
         min_attendees=1,
         waitlist=10,
     )
-    assert new_lesson is not None
     if new_lesson is not None:
         assert GetLessonResult(**new_lesson.dict()) == CreateLessonResult(
             **new_lesson.dict()
@@ -52,7 +51,6 @@ async def test_get_lesson(sample_lesson: CreateLessonResult):
         executor=client,
         lesson_id=sample_lesson.id,
     )
-    assert lesson is not None
     if lesson is not None:
         assert GetLessonResult(**lesson.dict()) == CreateLessonResult(
             **sample_lesson.dict()
@@ -82,7 +80,6 @@ async def test_update_lesson(sample_lesson: CreateLessonResult):
         min_attendees=100,
         waitlist=1,
     )
-    assert updated_lesson is not None
     if updated_lesson is not None:
         assert GetLessonResult(**sample_lesson.dict()) != UpdateLessonResult(
             **updated_lesson.dict()

@@ -97,3 +97,26 @@ async def test_get_lessons(sample_program_with_lesson):
         assert lessons == CreateProgramWithLessonResult(
             **sample_program_with_lesson.dict()
         )
+
+
+# async def test_add_and_remove_lesson_from_program(
+#     sample_program: CreateProgramResult, sample_lesson: CreateLessonResult
+# ):
+#     added_lesson = await add_lesson(
+#         executor=client,
+#         program_id=sample_program.id,
+#         lessons_id=sample_lesson.id,
+#     )
+#     assert added_lesson is not None:
+#         print(added_lesson)
+#     removed_lesson = await remove_lesson(
+#         executor=client,
+#         program_id=sample_program.id,
+#         lessons_id=sample_lesson.id,
+#     )
+#     if removed_lesson is None:
+#         print('yooo')
+# if removed_lesson is None:
+#     assert GetLessonsResult(**sample_lesson.dict()) != RemoveLessonResult(
+#         **removed_lesson.dict()
+#     )
