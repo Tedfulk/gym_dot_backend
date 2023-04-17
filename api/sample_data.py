@@ -4,11 +4,11 @@ from datetime import date, time, timedelta
 import pytest
 
 from api.gym_dot_lib.context.companies import (
+    CreateCompanyAndFacilityResult,
     CreateCompanyResult,
     DeleteCompanyResult,
-    CreateCompanyAndFacilityResult,
-    create_company_and_facility,
     create_company,
+    create_company_and_facility,
     delete_company,
 )
 from api.gym_dot_lib.context.facilities import (
@@ -18,9 +18,13 @@ from api.gym_dot_lib.context.facilities import (
     delete_facility,
 )
 from api.gym_dot_lib.context.facilities.programs import (
+    AddLessonResult,
     CreateProgramResult,
+    CreateProgramWithLessonResult,
     DeleteProgramResult,
+    add_lesson,
     create_program,
+    create_program_with_lesson,
     delete_program,
 )
 from api.gym_dot_lib.context.facilities.programs.lessons import (
@@ -130,3 +134,15 @@ async def sample_lesson():
     if lesson is not None:
         yield lesson
     await delete_lesson(executor=client, lesson_id=lesson.id)
+
+
+@pytest.fixture
+async def sample_program_with_lesson(
+    sample_program: CreateProgramResult, sample_lesson: CreateLessonResult
+):
+    program = await add_lesson(
+        executor=client, program_id=sample_program.id, lessons_id=sample_lesson.id
+    )
+    if program is not None:
+        yield program
+    await delete_program(executor=client, program_id=program.id)
