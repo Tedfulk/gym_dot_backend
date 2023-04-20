@@ -2,10 +2,8 @@ import pytest
 
 from api.gym_dot_lib.context.facilities import (
     CreateFacilityResult,
-    DeleteFacilityResult,
     GetFacilityResult,
     UpdateFacilityResult,
-    create_facility,
     delete_facility,
     get_facility,
     update_facility,
@@ -24,29 +22,6 @@ async def test_get_facility(sample_facility1: CreateFacilityResult):
     )
     assert facility is not None
     assert facility == CreateFacilityResult(**sample_facility1.dict())
-
-
-async def test_create_facility():
-    new_facility = await create_facility(
-        executor=client,
-        name="Sample Facility 2.0",
-        address="1234 Sample St",
-        city="Sample City",
-        state="NC",
-    )
-    facility = await get_facility(
-        executor=client,
-        facility_id=new_facility.id,
-    )
-    assert new_facility is not None
-    if facility is not None:
-        assert GetFacilityResult(**facility.dict()) == CreateFacilityResult(
-            **new_facility.dict()
-        )
-    await delete_facility(
-        executor=client,
-        facility_id=new_facility.id,
-    )
 
 
 async def test_update_facility(sample_facility1: CreateFacilityResult):

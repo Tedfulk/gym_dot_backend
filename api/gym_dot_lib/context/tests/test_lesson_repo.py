@@ -17,35 +17,6 @@ from api.sample_data import *
 pytestmark = pytest.mark.asyncio
 
 
-async def test_create_lesson():
-    new_lesson = await create_lesson(
-        executor=client,
-        class_dates=[
-            date.today(),
-            date.today() + timedelta(days=1),
-            date.today() + timedelta(days=2),
-        ],
-        class_times=[
-            time(6, 0),
-            time(9, 30),
-            time(12, 0),
-            time(16, 30),
-            time(17, 30),
-            time(18, 30),
-        ],
-        len_of_class_time=60,
-        active=True,
-        max_attendees=20,
-        min_attendees=1,
-        waitlist=10,
-    )
-    if new_lesson is not None:
-        assert GetLessonResult(**new_lesson.dict()) == CreateLessonResult(
-            **new_lesson.dict()
-        )
-    await delete_lesson(executor=client, lesson_id=new_lesson.id)
-
-
 async def test_get_lesson(sample_lesson: CreateLessonResult):
     lesson = await get_lesson(
         executor=client,

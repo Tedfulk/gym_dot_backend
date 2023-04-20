@@ -11,7 +11,6 @@ from api.gym_dot_lib.context.facilities.programs import (
     UpdateProgramResult,
     CreateProgramWithLessonResult,
     all_programs,
-    create_program,
     delete_program,
     get_lessons,
     get_program,
@@ -44,22 +43,6 @@ async def test_get_program(sample_program: CreateProgramResult):
         assert GetProgramResult(**program.dict()) == CreateProgramResult(
             **sample_program.dict()
         )
-
-
-async def test_create_program():
-    new_program = await create_program(
-        executor=client,
-        name="Sample Program 2.0",
-        description="Sample Description",
-        active=True,
-    )
-    program = await get_program(executor=client, program_id=new_program.id)
-    assert new_program is not None
-    if program is not None:
-        assert GetProgramResult(**program.dict()) == CreateProgramResult(
-            **new_program.dict()
-        )
-    await delete_program(executor=client, program_id=new_program.id)
 
 
 async def test_update_program(sample_program: CreateProgramResult):
@@ -99,24 +82,19 @@ async def test_get_lessons(sample_program_with_lesson):
         )
 
 
-# async def test_add_and_remove_lesson_from_program(
-#     sample_program: CreateProgramResult, sample_lesson: CreateLessonResult
-# ):
-#     added_lesson = await add_lesson(
-#         executor=client,
-#         program_id=sample_program.id,
-#         lessons_id=sample_lesson.id,
-#     )
-#     assert added_lesson is not None:
-#         print(added_lesson)
-#     removed_lesson = await remove_lesson(
-#         executor=client,
-#         program_id=sample_program.id,
-#         lessons_id=sample_lesson.id,
-#     )
-#     if removed_lesson is None:
-#         print('yooo')
-# if removed_lesson is None:
-#     assert GetLessonsResult(**sample_lesson.dict()) != RemoveLessonResult(
-#         **removed_lesson.dict()
-#     )
+async def test_add_and_remove_lesson_from_program(
+    sample_program: CreateProgramResult, sample_lesson: CreateLessonResult
+):
+    added_lesson = await add_lesson(
+        executor=client,
+        program_id=sample_program.id,
+        lessons_id=sample_lesson.id,
+    )
+    assert added_lesson is not None
+    removed_lesson = await remove_lesson(
+        executor=client,
+        program_id=sample_program.id,
+        lessons_id=sample_lesson.id,
+    )
+    if removed_lesson:
+        assert removed_lesson.lesson == []
