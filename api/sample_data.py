@@ -18,9 +18,13 @@ from api.gym_dot_lib.context.facilities import (
     delete_facility,
 )
 from api.gym_dot_lib.context.facilities.programs import (
+    AddLessonResult,
     CreateProgramResult,
+    CreateProgramWithLessonResult,
     DeleteProgramResult,
+    add_lesson,
     create_program,
+    create_program_with_lesson,
     delete_program,
 )
 from api.gym_dot_lib.context.facilities.programs.lessons import (
@@ -130,3 +134,15 @@ async def sample_lesson():
     if lesson is not None:
         yield lesson
     await delete_lesson(executor=client, lesson_id=lesson.id)
+
+
+@pytest.fixture
+async def sample_program_with_lesson(
+    sample_program: CreateProgramResult, sample_lesson: CreateLessonResult
+):
+    program_with_lesson = await add_lesson(
+        executor=client, program_id=sample_program.id, lessons_id=sample_lesson.id
+    )
+    if program_with_lesson is not None:
+        yield program_with_lesson
+    await delete_program(executor=client, program_id=program_with_lesson.id)
