@@ -7,7 +7,7 @@ from edgedb import AsyncIOExecutor
 from pydantic import BaseModel, parse_raw_as
 
 EDGEQL_QUERY = r"""
-delete Lessons 
+delete Lessons
     filter .id = <uuid>$lesson_id
 """
 

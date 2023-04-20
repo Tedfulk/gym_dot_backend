@@ -7,7 +7,7 @@ from edgedb import AsyncIOExecutor
 from pydantic import BaseModel, parse_raw_as
 
 EDGEQL_QUERY = r"""
-delete Programs 
+delete Programs
     filter .id = <uuid>$program_id
 """
 

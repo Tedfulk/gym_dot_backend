@@ -8,5 +8,5 @@ select Companies {
         name,
         state
     }
-} 
+}
 filter .id=<uuid>$company_id

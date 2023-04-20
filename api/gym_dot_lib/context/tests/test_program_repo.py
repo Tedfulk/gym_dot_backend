@@ -1,22 +1,22 @@
 import pytest
 
 from api.gym_dot_lib.context.facilities.programs import (
+    AddLessonResult,
     AllProgramsResult,
     CreateProgramResult,
-    AddLessonResult,
-    RemoveLessonResult,
+    CreateProgramWithLessonResult,
     DeleteProgramResult,
     GetLessonsResult,
     GetProgramResult,
+    RemoveLessonResult,
     UpdateProgramResult,
-    CreateProgramWithLessonResult,
+    add_lesson,
     all_programs,
     delete_program,
     get_lessons,
     get_program,
-    update_program,
-    add_lesson,
     remove_lesson,
+    update_program,
 )
 from api.gym_dot_lib.context.main import client
 from api.sample_data import *

@@ -23,7 +23,7 @@ select Programs {
         min_attendees,
         waitlist,
     }
-} 
+}
 filter .id=<uuid>$program_id
 """
 
