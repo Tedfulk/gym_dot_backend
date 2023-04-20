@@ -36,7 +36,7 @@ module default {
             constraint exclusive;
         };
     }
-    
+
     type Lessons {
         property class_dates -> array<cal::local_date>;
         property class_times -> array<cal::local_time>;

@@ -9,10 +9,10 @@ from pydantic import BaseModel, parse_raw_as
 
 EDGEQL_QUERY = r"""
 select (
-    update Programs 
+    update Programs
         filter .id=<uuid>$program_id
         set {
-            lesson -= (select detached Lessons 
+            lesson -= (select detached Lessons
                 filter .id=<uuid>$lessons_id )
         }
         ) {

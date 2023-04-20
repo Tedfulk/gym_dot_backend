@@ -7,13 +7,13 @@ insert Companies {
         address := <str>$address,
         city := <str>$city,
         state := <str>$state,
-    } 
+    }
     )
     }
 }
 ) {
     id,
-    name, 
+    name,
     facility: {
     id,
     name,

@@ -22,13 +22,13 @@ insert Programs {
         max_attendees := <int32>$max_attendees,
         min_attendees := <int32>$min_attendees,
         waitlist := <int32>$waitlist,
-    } 
+    }
     )
     }
 }
 ) {
     id,
-    name, 
+    name,
     description,
     active,
     lesson: {
