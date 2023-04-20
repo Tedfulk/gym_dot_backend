@@ -1,8 +1,8 @@
-from .all_facilities import all_facilities, AllFacilitiesResult
-from .create_facility import create_facility, CreateFacilityResult
-from .delete_facility import delete_facility, DeleteFacilityResult
-from .get_facility import get_facility, GetFacilityResult
-from .update_facility import update_facility, UpdateFacilityResult
+from .all_facilities import AllFacilitiesResult, all_facilities
+from .create_facility import CreateFacilityResult, create_facility
+from .delete_facility import DeleteFacilityResult, delete_facility
+from .get_facility import GetFacilityResult, get_facility
+from .update_facility import UpdateFacilityResult, update_facility
 
 __all__ = [
     "all_facilities",

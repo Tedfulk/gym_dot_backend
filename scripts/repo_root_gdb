@@ -1,0 +1,32 @@
+#!/usr/bin/env python
+
+import os
+from pathlib import Path
+
+repo_root = Path(".").resolve()
+
+try:
+    os.chdir(repo_root / "scripts")
+except FileNotFoundError:
+    print("Run 'pipenv run repo_root' from the root of the repo.")
+    exit(1)
+
+text = f"""
+#  This file is meant for local development only
+#  to set env vars convient to have in the virtual environment.
+
+REPO_ROOT={repo_root}
+"""
+
+with open(repo_root / ".env", "w") as f:
+    f.write(text)
+
+print("   Wrote .env")
+
+print(
+    "   If you move the directory where you keep this repo or reclone this repo, rerun this command."
+)
+print()
+print(
+    "   Other 'pipenv run' commands should work from any directory inside this repo when the virtual env is activated."
+)
