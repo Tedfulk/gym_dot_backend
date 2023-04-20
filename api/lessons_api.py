@@ -30,7 +30,7 @@ async def get_lesson_by_id(lesson_id: UUID):
 
 
 @app.post("", response_model=CreateLessonResult)
-async def make_lesson(
+async def post_lesson(
     class_dates: list[date],
     class_times: list[time],
     len_of_class_time: int,
@@ -52,7 +52,7 @@ async def make_lesson(
 
 
 @app.put("/{lesson_id}", response_model=UpdateLessonResult)
-async def update_lesson_by_id(
+async def put_lesson_by_id(
     lesson_id: UUID,
     class_dates: list[date],
     class_times: list[time],
