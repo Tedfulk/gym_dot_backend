@@ -5,7 +5,7 @@ from gym_dot_lib.context.facilities.programs import (
     AllProgramsResult,
     CreateProgramResult,
     DeleteProgramResult,
-    GetLessonsResultLesson,
+    GetLessonsResult,
     GetProgramResult,
     UpdateProgramResult,
     all_programs,
@@ -31,14 +31,14 @@ async def get_program_by_id(program_id: UUID):
 
 
 @app.post("", response_model=CreateProgramResult)
-async def make_program(name: str, description: str, active: bool):
+async def post_program(name: str, description: str, active: bool):
     return await create_program(
         executor=client, name=name, description=description, active=active
     )
 
 
 @app.put("/{program_id}", response_model=UpdateProgramResult)
-async def update_program_by_id(
+async def put_program_by_id(
     program_id: UUID, name: str, description: str, active: bool
 ):
     return await update_program(
@@ -55,6 +55,6 @@ async def delete_program_by_id(program_id: UUID):
     return await delete_program(executor=client, program_id=program_id)
 
 
-@app.get("/{program_id}/lessons", response_model=GetLessonsResultLesson)
+@app.get("/{program_id}/lessons", response_model=GetLessonsResult)
 async def get_lessons_by_program_id(program_id: UUID):
     return await get_lessons(executor=client, program_id=program_id)

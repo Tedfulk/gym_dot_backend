@@ -1,35 +1,25 @@
+"""
+Contains fixtures for unit/(repo) and end-to-end/(api) test.
+"""
 import asyncio
 from datetime import date, time, timedelta
 
 import pytest
 
 from api.gym_dot_lib.context.companies import (
-    CreateCompanyAndFacilityResult,
-    CreateCompanyResult,
-    DeleteCompanyResult,
     create_company,
     create_company_and_facility,
     delete_company,
 )
-from api.gym_dot_lib.context.facilities import (
-    CreateFacilityResult,
-    DeleteFacilityResult,
-    create_facility,
-    delete_facility,
-)
+from api.gym_dot_lib.context.facilities import create_facility, delete_facility
 from api.gym_dot_lib.context.facilities.programs import (
-    AddLessonResult,
     CreateProgramResult,
-    CreateProgramWithLessonResult,
-    DeleteProgramResult,
     add_lesson,
     create_program,
-    create_program_with_lesson,
     delete_program,
 )
 from api.gym_dot_lib.context.facilities.programs.lessons import (
     CreateLessonResult,
-    DeleteLessonResult,
     create_lesson,
     delete_lesson,
 )

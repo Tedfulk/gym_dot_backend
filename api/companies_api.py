@@ -35,12 +35,12 @@ async def get_company_by_id(company_id: UUID):
 
 
 @app.post("", response_model=CreateCompanyResult)
-async def make_company(company_name: str):
+async def post_company(company_name: str):
     return await create_company(executor=client, company_name=company_name)
 
 
 @app.put("/{company_id}", response_model=UpdateCompanyResult)
-async def update_company_by_id(company_id: UUID, company_name: str):
+async def put_company_by_id(company_id: UUID, company_name: str):
     return await update_company(
         executor=client, company_id=company_id, company_name=company_name
     )
@@ -56,14 +56,14 @@ async def get_facilities_by_company_id(company_id: UUID):
     return await get_facilities(executor=client, company_id=company_id)
 
 
-@app.put("/{company_id}/facilities", response_model=AddFacilityResult)
+@app.put("/{company_id}/add/facilities", response_model=AddFacilityResult)
 async def add_facility_to_company(company_id: UUID, facility_id: UUID):
     return await add_facility(
         executor=client, company_id=company_id, facility_id=facility_id
     )
 
 
-@app.put("/{company_id}facilities", response_model=RemoveFacilityResult)
+@app.put("/{company_id}/remove/facilities", response_model=RemoveFacilityResult)
 async def remove_facility_from_company(company_id: UUID, facility_id: UUID):
     return await remove_facility(
         executor=client, company_id=company_id, facility_id=facility_id

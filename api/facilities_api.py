@@ -29,14 +29,14 @@ async def get_facility_by_id(facility_id: UUID):
 
 
 @app.post("", response_model=CreateFacilityResult)
-async def make_facility(name: str, address: str, city: str, state: str):
+async def post_facility(name: str, address: str, city: str, state: str):
     return await create_facility(
         executor=client, name=name, address=address, city=city, state=state
     )
 
 
 @app.put("/{facility_id}", response_model=UpdateFacilityResult)
-async def update_facility_by_id(
+async def put_facility_by_id(
     facility_id: UUID, name: str, address: str, city: str, state: str
 ):
     return await update_facility(
