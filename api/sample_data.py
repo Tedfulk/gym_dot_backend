@@ -140,9 +140,9 @@ async def sample_lesson():
 async def sample_program_with_lesson(
     sample_program: CreateProgramResult, sample_lesson: CreateLessonResult
 ):
-    program = await add_lesson(
+    program_with_lesson = await add_lesson(
         executor=client, program_id=sample_program.id, lessons_id=sample_lesson.id
     )
-    if program is not None:
-        yield program
-    await delete_program(executor=client, program_id=program.id)
+    if program_with_lesson is not None:
+        yield program_with_lesson
+    await delete_program(executor=client, program_id=program_with_lesson.id)
