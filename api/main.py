@@ -4,6 +4,7 @@ import lessons_api
 import programs_api
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from httpx import AsyncClient
 from utils import Tag, description, servers
 
 app = FastAPI(
@@ -15,6 +16,8 @@ app = FastAPI(
 ORIGINS = [
     "*",
 ]
+
+async_client = AsyncClient(app=app, base_url="http://testserver")
 
 app.add_middleware(
     CORSMiddleware,
