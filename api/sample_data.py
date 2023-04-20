@@ -4,11 +4,11 @@ from datetime import date, time, timedelta
 import pytest
 
 from api.gym_dot_lib.context.companies import (
+    CreateCompanyAndFacilityResult,
     CreateCompanyResult,
     DeleteCompanyResult,
-    CreateCompanyAndFacilityResult,
-    create_company_and_facility,
     create_company,
+    create_company_and_facility,
     delete_company,
 )
 from api.gym_dot_lib.context.facilities import (

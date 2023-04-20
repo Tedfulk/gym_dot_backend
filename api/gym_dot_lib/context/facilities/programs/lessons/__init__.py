@@ -1,8 +1,8 @@
-from .all_lessons import all_lessons, AllLessonsResult
-from .create_lesson import create_lesson, CreateLessonResult
-from .delete_lesson import delete_lesson, DeleteLessonResult
-from .get_lesson import get_lesson, GetLessonResult
-from .update_lesson import update_lesson, UpdateLessonResult
+from .all_lessons import AllLessonsResult, all_lessons
+from .create_lesson import CreateLessonResult, create_lesson
+from .delete_lesson import DeleteLessonResult, delete_lesson
+from .get_lesson import GetLessonResult, get_lesson
+from .update_lesson import UpdateLessonResult, update_lesson
 
 __all__ = [
     "all_lessons",

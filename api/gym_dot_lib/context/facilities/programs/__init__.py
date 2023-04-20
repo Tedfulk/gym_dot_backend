@@ -1,9 +1,9 @@
-from .all_programs import all_programs, AllProgramsResult
-from .create_program import create_program, CreateProgramResult
-from .delete_program import delete_program, DeleteProgramResult
-from .get_lessons import get_lessons, GetLessonsResultLesson
-from .get_program import get_program, GetProgramResult
-from .update_program import update_program, UpdateProgramResult
+from .all_programs import AllProgramsResult, all_programs
+from .create_program import CreateProgramResult, create_program
+from .delete_program import DeleteProgramResult, delete_program
+from .get_lessons import GetLessonsResultLesson, get_lessons
+from .get_program import GetProgramResult, get_program
+from .update_program import UpdateProgramResult, update_program
 
 __all__ = [
     "all_programs",

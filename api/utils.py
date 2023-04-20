@@ -1,9 +1,8 @@
 import itertools as iter
 from typing import Optional, Type
 
-from pydantic import BaseModel
-
 from gym_dot_lib.context.utils.str_enum import StrEnum
+from pydantic import BaseModel
 
 
 class Tag(StrEnum):
