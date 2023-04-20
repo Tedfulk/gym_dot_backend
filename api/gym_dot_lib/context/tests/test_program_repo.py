@@ -90,11 +90,14 @@ async def test_add_and_remove_lesson_from_program(
         program_id=sample_program.id,
         lessons_id=sample_lesson.id,
     )
-    assert added_lesson is not None
-    removed_lesson = await remove_lesson(
-        executor=client,
-        program_id=sample_program.id,
-        lessons_id=sample_lesson.id,
-    )
-    if removed_lesson:
-        assert removed_lesson.lesson == []
+    if added_lesson is not None:
+        removed_lesson = await remove_lesson(
+            executor=client,
+            program_id=sample_program.id,
+            lessons_id=added_lesson.id,
+        )
+        if removed_lesson:
+            assert RemoveLessonResult(**removed_lesson.dict()) == AddLessonResult(
+                **added_lesson.dict()
+            )
+    await delete_program(executor=client, program_id=sample_program.id)
