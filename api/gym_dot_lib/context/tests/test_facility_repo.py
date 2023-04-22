@@ -15,36 +15,36 @@ from api.sample_data import *
 pytestmark = pytest.mark.asyncio
 
 
-async def test_get_facility(sample_facility1: CreateFacilityResult):
+async def test_get_facility(sample_facility: CreateFacilityResult):
     facility = await get_facility(
         executor=client,
-        facility_id=sample_facility1.id,
+        facility_id=sample_facility.id,
     )
     assert facility is not None
-    assert facility == CreateFacilityResult(**sample_facility1.dict())
+    assert facility == CreateFacilityResult(**sample_facility.dict())
 
 
-async def test_update_facility(sample_facility1: CreateFacilityResult):
-    new_name = sample_facility1.name + " (updated)"
-    updates = UpdateFacilityResult(**{**sample_facility1.dict(), "name": new_name})
+async def test_update_facility(sample_facility: CreateFacilityResult):
+    new_name = sample_facility.name + " (updated)"
+    updates = UpdateFacilityResult(**{**sample_facility.dict(), "name": new_name})
     updated_facility = await update_facility(
         executor=client,
-        facility_id=sample_facility1.id,
+        facility_id=sample_facility.id,
         name=updates.name,
         address=updates.address,
         city=updates.city,
         state=updates.state,
     )
     assert updated_facility is not None
-    assert CreateFacilityResult(**sample_facility1.dict()) != UpdateFacilityResult(
+    assert CreateFacilityResult(**sample_facility.dict()) != UpdateFacilityResult(
         **updated_facility.dict()
     )
 
 
-async def test_delete_facility(sample_facility1: CreateFacilityResult):
+async def test_delete_facility(sample_facility: CreateFacilityResult):
     deleted_facility = await delete_facility(
         executor=client,
-        facility_id=sample_facility1.id,
+        facility_id=sample_facility.id,
     )
     assert deleted_facility is not None
     facility = await get_facility(

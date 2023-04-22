@@ -6,22 +6,18 @@ from datetime import date, time, timedelta
 
 import pytest
 
-from api.gym_dot_lib.context.companies import (
-    create_company,
-    create_company_and_facility,
-    delete_company,
-)
-from api.gym_dot_lib.context.facilities import create_facility, delete_facility
+from api.gym_dot_lib.context.companies import CompanyRepo, NewCompany
+from api.gym_dot_lib.context.facilities import FacilityRepo, NewFacility
 from api.gym_dot_lib.context.facilities.programs import (
-    CreateProgramResult,
+    NewProgram,
+    Program,
+    ProgramRepo,
     add_lesson,
-    create_program,
-    delete_program,
 )
 from api.gym_dot_lib.context.facilities.programs.lessons import (
-    CreateLessonResult,
-    create_lesson,
-    delete_lesson,
+    Lesson,
+    LessonRepo,
+    NewLesson,
 )
 from api.gym_dot_lib.context.main import client
 
@@ -36,103 +32,113 @@ def event_loop():
 
 @pytest.fixture
 async def sample_company():
-    company = await create_company(executor=client, company_name="Sample Company")
+    company = await CompanyRepo.create(
+        executor=client, new_company=NewCompany(name="Sample Company")
+    )
     if company is not None:
         yield company
-    await delete_company(executor=client, company_id=company.id)
+    await CompanyRepo.delete(executor=client, company_id=company.id)
 
 
 @pytest.fixture
 async def sample_company_with_facility():
-    company = await create_company_and_facility(
+    company = await CompanyRepo.create_company_and_facility(
         executor=client,
-        company_name="Sample Company",
-        facility_name="Sample Facility",
-        address="1234 Main St",
-        city="Cromwell",
-        state="IN",
+        new_company=NewCompany(name="Sample Company"),
+        new_facility=NewFacility(
+            name="Sample Facility",
+            address="1234 Main St",
+            city="Cromwell",
+            state="IN",
+        ),
     )
     if company is not None:
         yield company
-    await delete_company(executor=client, company_id=company.id)
+    await CompanyRepo.delete(executor=client, company_id=company.id)
 
 
 @pytest.fixture
-async def sample_facility1():
-    facility = await create_facility(
+async def sample_facility():
+    facility = await FacilityRepo.create(
         executor=client,
-        name="Sample Facility",
-        address="1234 Main St",
-        city="Cromwell",
-        state="IN",
+        new_facility=NewFacility(
+            name="Sample Facility",
+            address="1234 Main St",
+            city="Cromwell",
+            state="IN",
+        ),
     )
     if facility is not None:
         yield facility
-    await delete_facility(executor=client, facility_id=facility.id)
+    await FacilityRepo.delete(executor=client, facility_id=facility.id)
 
 
 @pytest.fixture
 async def sample_facility2():
-    facility = await create_facility(
+    facility = await FacilityRepo.create(
         executor=client,
-        name="Sample Facility 2",
-        address="4321 Main St",
-        city="West Lafayette",
-        state="IN",
+        new_facility=NewFacility(
+            name="Another Facility",
+            address="555 Main St",
+            city="Ligonier",
+            state="IN",
+        ),
     )
     if facility is not None:
         yield facility
-    await delete_facility(executor=client, facility_id=facility.id)
+    await FacilityRepo.delete(executor=client, facility_id=facility.id)
 
 
 @pytest.fixture
 async def sample_program():
-    program = await create_program(
+    program = await ProgramRepo.create(
         executor=client,
-        name="Sample Program",
-        description="Sample Description",
-        active=True,
+        new_program=NewProgram(
+            name="Sample Program",
+            description="Sample Description",
+            active=True,
+        ),
     )
     if program is not None:
         yield program
-    await delete_program(executor=client, program_id=program.id)
+    await ProgramRepo.delete(executor=client, program_id=program.id)
 
 
 @pytest.fixture
 async def sample_lesson():
-    lesson = await create_lesson(
+    lesson = await LessonRepo.create(
         executor=client,
-        class_dates=[
-            date.today(),
-            date.today() + timedelta(days=1),
-            date.today() + timedelta(days=2),
-        ],
-        class_times=[
-            time(6, 0),
-            time(9, 30),
-            time(12, 0),
-            time(16, 30),
-            time(17, 30),
-            time(18, 30),
-        ],
-        len_of_class_time=60,
-        active=True,
-        max_attendees=20,
-        min_attendees=1,
-        waitlist=10,
+        new_lesson=NewLesson(
+            class_dates=[
+                date.today(),
+                date.today() + timedelta(days=1),
+                date.today() + timedelta(days=2),
+            ],
+            class_times=[
+                time(6, 0),
+                time(9, 30),
+                time(12, 0),
+                time(16, 30),
+                time(17, 30),
+                time(18, 30),
+            ],
+            len_of_class_time=60,
+            active=True,
+            max_attendees=20,
+            min_attendees=1,
+            waitlist=10,
+        ),
     )
     if lesson is not None:
         yield lesson
-    await delete_lesson(executor=client, lesson_id=lesson.id)
+    await LessonRepo.delete(executor=client, lesson_id=lesson.id)
 
 
 @pytest.fixture
-async def sample_program_with_lesson(
-    sample_program: CreateProgramResult, sample_lesson: CreateLessonResult
-):
+async def sample_program_with_lesson(sample_program: Program, sample_lesson: Lesson):
     program_with_lesson = await add_lesson(
         executor=client, program_id=sample_program.id, lessons_id=sample_lesson.id
     )
     if program_with_lesson is not None:
         yield program_with_lesson
-    await delete_program(executor=client, program_id=program_with_lesson.id)
+    await ProgramRepo.delete(executor=client, program_id=program_with_lesson.id)

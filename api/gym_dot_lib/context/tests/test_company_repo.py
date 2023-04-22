@@ -1,12 +1,11 @@
 import pytest
 
 from api.gym_dot_lib.context.companies import (
-    AllCompaniesResult,
-    CreateCompanyResult,
-    DeleteCompanyResult,
-    GetCompanyResult,
-    GetFacilitiesResult,
-    UpdateCompanyResult,
+    Company,
+    CompanyRepo,
+    CompanyUpdates,
+    CompanyWithFacilities,
+    NewCompany,
     all_companies,
     create_company,
     delete_company,
@@ -28,8 +27,8 @@ async def test_all_companies():
     assert companies is not None
 
 
-async def test_get_company(sample_company: CreateCompanyResult):
-    company = await get_company(executor=client, company_id=sample_company.id)
+async def test_get_company(sample_company: Company):
+    company = await CompanyRepo.get(executor=client, company_id=sample_company.id)
     assert sample_company is not None
     if company is not None:
         assert company.id == sample_company.id

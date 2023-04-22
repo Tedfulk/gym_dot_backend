@@ -74,11 +74,11 @@ async def test_get_facilities_by_company_id(sample_company: CreateCompanyResult)
 
 
 async def test_add_facility_to_company(
-    sample_company: CreateCompanyResult, sample_facility1: CreateFacilityResult
+    sample_company: CreateCompanyResult, sample_facility: CreateFacilityResult
 ):
     """PUT /companies/{company_id}/add/facilities"""
     response = await AC.put(
-        f"/companies/{sample_company.id}/add/facilities?facility_id={sample_facility1.id}",
+        f"/companies/{sample_company.id}/add/facilities?facility_id={sample_facility.id}",
     )
     company = await AC.get(f"/companies/{response.json()['id']}")
     assert response.status_code == 200
@@ -87,11 +87,11 @@ async def test_add_facility_to_company(
 
 
 async def test_remove_facility_from_company(
-    sample_company: CreateCompanyResult, sample_facility1: CreateFacilityResult
+    sample_company: CreateCompanyResult, sample_facility: CreateFacilityResult
 ):
     """PUT /companies/{company_id}/remove/facilities"""
     response = await AC.put(
-        f"/companies/{sample_company.id}/remove/facilities?facility_id={sample_facility1.id}",
+        f"/companies/{sample_company.id}/remove/facilities?facility_id={sample_facility.id}",
     )
     company = await AC.get(f"/companies/{response.json()['id']}")
     assert response.status_code == 200

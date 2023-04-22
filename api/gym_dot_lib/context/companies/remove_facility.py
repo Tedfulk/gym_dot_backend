@@ -7,17 +7,23 @@ from edgedb import AsyncIOExecutor
 from pydantic import BaseModel, parse_raw_as
 
 EDGEQL_QUERY = r"""
-update Companies
+select(
+  update Companies
   filter .id=<uuid>$company_id
   set {
     facility -= (select detached Facilities
       filter .id=<uuid>$facility_id )
   }
+) {
+    id,
+    name,
+}
 """
 
 
 class RemoveFacilityResult(BaseModel):
     id: UUID
+    name: str
 
 
 async def remove_facility(

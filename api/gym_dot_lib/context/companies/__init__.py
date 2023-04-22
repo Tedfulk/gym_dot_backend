@@ -1,33 +1,35 @@
-from .add_facility import AddFacilityResult, add_facility
-from .all_companies import AllCompaniesResult, all_companies
-from .create_company import CreateCompanyResult, create_company
-from .create_company_and_facility import (
-    CreateCompanyAndFacilityResult,
-    create_company_and_facility,
+from .add_facility import add_facility
+from .all_companies import all_companies
+from .create_company import create_company
+from .create_company_and_facility import create_company_and_facility
+from .delete_company import delete_company
+from .get_company import get_company
+from .get_facilities import get_facilities
+from .models import (
+    Company,
+    CompanyUpdates,
+    CompanyWithFacilities,
+    DeleteCompanyResult,
+    NewCompany,
 )
-from .delete_company import DeleteCompanyResult, delete_company
-from .get_company import GetCompanyResult, get_company
-from .get_facilities import GetFacilitiesResult, get_facilities
-from .remove_facility import RemoveFacilityResult, remove_facility
-from .update_company import UpdateCompanyResult, update_company
+from .remove_facility import remove_facility
+from .repo import CompanyRepo
+from .update_company import update_company
 
 __all__ = [
     "all_companies",
-    "AllCompaniesResult",
     "create_company",
-    "CreateCompanyResult",
     "delete_company",
-    "DeleteCompanyResult",
     "get_company",
-    "GetCompanyResult",
     "update_company",
-    "UpdateCompanyResult",
     "remove_facility",
-    "RemoveFacilityResult",
     "add_facility",
-    "AddFacilityResult",
     "get_facilities",
-    "GetFacilitiesResult",
     "create_company_and_facility",
-    "CreateCompanyAndFacilityResult",
+    "Company",
+    "CompanyUpdates",
+    "CompanyWithFacilities",
+    "NewCompany",
+    "CompanyRepo",
+    "DeleteCompanyResult",
 ]
