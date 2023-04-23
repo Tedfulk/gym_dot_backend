@@ -22,6 +22,7 @@ from .queries import (
     CREATE_COMPANY_AND_FACILTY,
     DELETE_COMPANY,
     GET_COMPANY,
+    GET_FACILITIES,
     REMOVE_FACILITY,
     UPDATE_COMPANY,
 )
@@ -135,9 +136,9 @@ class CompanyRepo:
             CREATE_COMPANY_AND_FACILTY,
             company_name=new_company.name,
             facility_name=new_facility.name,
-            facility_address=new_facility.address,
-            facility_city=new_facility.city,
-            facility_state=new_facility.state,
+            address=new_facility.address,
+            city=new_facility.city,
+            state=new_facility.state,
         )
         parsed = await asyncio.to_thread(
             parse_raw_as, CompanyWithFacilities, resp, json_loads=orjson.loads
@@ -155,3 +156,18 @@ class CompanyRepo:
             parse_raw_as, list[Company], resp, json_loads=orjson.loads
         )
         return cast(list[Company], parsed)
+
+    @staticmethod
+    async def get_facilities(
+        executor: AsyncIOExecutor,
+        *,
+        company_id: UUID,
+    ) -> CompanyWithFacilities | None:
+        resp = await executor.query_single_json(
+            GET_FACILITIES,
+            company_id=company_id,
+        )
+        parsed = await asyncio.to_thread(
+            parse_raw_as, CompanyWithFacilities | None, resp, json_loads=orjson.loads
+        )
+        return cast(CompanyWithFacilities | None, parsed)

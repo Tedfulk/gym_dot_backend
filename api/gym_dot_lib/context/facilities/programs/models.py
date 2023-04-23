@@ -1,7 +1,8 @@
 from uuid import UUID
 
-from gym_dot_lib.context.facilities.programs.lessons import Lesson
 from pydantic import BaseModel
+
+from api.gym_dot_lib.context.facilities.programs.lessons import Lesson
 
 
 class ProgramUpdates(BaseModel):
