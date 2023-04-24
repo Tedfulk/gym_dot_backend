@@ -3,7 +3,7 @@ select (
         filter .id=<uuid>$program_id
         set {
             lesson += (select detached Lessons
-                filter .id=<uuid>$lessons_id )
+                filter .id=<uuid>$lesson_id )
         }
     ) {
         id,

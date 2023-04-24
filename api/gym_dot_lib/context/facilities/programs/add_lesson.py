@@ -13,7 +13,7 @@ select (
         filter .id=<uuid>$program_id
         set {
             lesson += (select detached Lessons
-                filter .id=<uuid>$lessons_id )
+                filter .id=<uuid>$lesson_id )
         }
     ) {
         id,
@@ -57,12 +57,12 @@ async def add_lesson(
     executor: AsyncIOExecutor,
     *,
     program_id: UUID,
-    lessons_id: UUID,
+    lesson_id: UUID,
 ) -> AddLessonResult | None:
     resp = await executor.query_single_json(
         EDGEQL_QUERY,
         program_id=program_id,
-        lessons_id=lessons_id,
+        lesson_id=lesson_id,
     )
     parsed = await asyncio.to_thread(
         parse_raw_as, AddLessonResult | None, resp, json_loads=orjson.loads

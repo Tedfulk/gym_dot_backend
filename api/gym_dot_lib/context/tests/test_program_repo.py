@@ -1,22 +1,15 @@
 import pytest
 
 from api.gym_dot_lib.context.facilities.programs import (
-    AddLessonResult,
-    AllProgramsResult,
-    CreateProgramResult,
-    CreateProgramWithLessonResult,
     DeleteProgramResult,
-    GetLessonsResult,
-    GetProgramResult,
-    RemoveLessonResult,
-    UpdateProgramResult,
-    add_lesson,
-    all_programs,
-    delete_program,
-    get_lessons,
-    get_program,
-    remove_lesson,
-    update_program,
+    NewProgram,
+    Program,
+    ProgramRepo,
+    ProgramUpdates,
+    ProgramWithLessons,
+)
+from api.gym_dot_lib.context.facilities.programs.create_program_with_lesson import (
+    CreateProgramWithLessonResult,
 )
 from api.gym_dot_lib.context.main import client
 from api.sample_data import *
@@ -26,78 +19,83 @@ pytestmark = pytest.mark.asyncio
 
 
 async def test_all_programs():
-    programs = await all_programs(
+    programs = await ProgramRepo.all_programs(
         executor=client,
     )
     assert programs is not None
     assert len(programs) > 0
 
 
-async def test_get_program(sample_program: CreateProgramResult):
-    program = await get_program(
+async def test_get_program(sample_program: Program):
+    program = await ProgramRepo.get(
         executor=client,
         program_id=sample_program.id,
     )
     assert program is not None
     if program is not None:
-        assert GetProgramResult(**program.dict()) == CreateProgramResult(
-            **sample_program.dict()
-        )
+        assert Program(**program.dict()) == Program(**sample_program.dict())
 
 
-async def test_update_program(sample_program: CreateProgramResult):
-    updated_program = await update_program(
+async def test_update_program(sample_program: Program):
+    updated_program = await ProgramRepo.update(
         executor=client,
         program_id=sample_program.id,
-        name=sample_program.name + " (updated)",
-        description=sample_program.description + " (updated)",
-        active=sample_program.active,
+        updates=ProgramUpdates(
+            name=sample_program.name + " (updated)",
+            description=sample_program.description + " (updated)",
+            active=sample_program.active,
+        ),
     )
     assert updated_program is not None
-    program = await get_program(executor=client, program_id=updated_program.id)
+    program = await ProgramRepo.get(executor=client, program_id=updated_program.id)
     if program is not None:
-        assert GetProgramResult(**program.dict()) == UpdateProgramResult(
-            **updated_program.dict()
-        )
+        assert Program(**program.dict()) == Program(**updated_program.dict())
 
 
-async def test_delete_program(sample_program: CreateProgramResult):
-    deleted_program = await delete_program(
+async def test_delete_program():
+    program = await ProgramRepo.create(
         executor=client,
-        program_id=sample_program.id,
+        new_program=NewProgram(
+            name="Sample Program",
+            description="Sample Program Description",
+            active=True,
+        ),
     )
-    assert deleted_program is not None
-    program = await get_program(executor=client, program_id=deleted_program.id)
+    deleted_program = await ProgramRepo.delete(
+        executor=client,
+        program_id=program.id,
+    )
+    assert DeleteProgramResult(**deleted_program.dict()) is not None
+    program = await ProgramRepo.get(executor=client, program_id=deleted_program.id)
     assert program is None
 
 
-async def test_get_lessons(sample_program_with_lesson):
-    lessons = await get_lessons(
+async def test_get_lessons(sample_program_with_lesson: ProgramWithLessons):
+    lessons = await ProgramRepo.get_lessons(
         executor=client,
         program_id=sample_program_with_lesson.id,
     )
     if lessons is not None:
-        assert lessons == CreateProgramWithLessonResult(
-            **sample_program_with_lesson.dict()
-        )
+        assert lessons == ProgramWithLessons(**sample_program_with_lesson.dict())
 
 
 async def test_add_and_remove_lesson_from_program(
-    sample_program: CreateProgramResult, sample_lesson: CreateLessonResult
+    sample_program: Program, sample_lesson: Lesson
 ):
-    added_lesson = await add_lesson(
+    added_lesson = await ProgramRepo.add_lesson(
         executor=client,
         program_id=sample_program.id,
-        lessons_id=sample_lesson.id,
+        lesson_id=sample_lesson.id,
+    )
+    program = await ProgramRepo.get(
+        executor=client,
+        program_id=added_lesson.id,
     )
     if added_lesson is not None:
-        removed_lesson = await remove_lesson(
+        removed_lesson = await ProgramRepo.remove_lesson(
             executor=client,
-            program_id=sample_program.id,
-            lessons_id=added_lesson.id,
+            program_id=program.id,
+            lesson_id=added_lesson.lesson[0].id,
         )
         if removed_lesson:
-            assert RemoveLessonResult(**removed_lesson.dict()) == AddLessonResult(
-                **added_lesson.dict()
-            )
-    await delete_program(executor=client, program_id=sample_program.id)
+            assert Program(**removed_lesson.dict()) == Program(**program.dict())

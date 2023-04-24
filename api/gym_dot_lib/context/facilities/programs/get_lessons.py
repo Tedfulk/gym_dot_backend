@@ -7,6 +7,8 @@ import orjson
 from edgedb import AsyncIOExecutor
 from pydantic import BaseModel, parse_raw_as
 
+from api.gym_dot_lib.context.facilities.programs.lessons import Lesson
+
 EDGEQL_QUERY = r"""
 select Programs {
     id,
@@ -44,7 +46,7 @@ class GetLessonsResult(BaseModel):
     name: str
     description: str | None
     active: bool | None
-    lesson: list[GetLessonsResultLesson]
+    lesson: list[Lesson]
 
 
 async def get_lessons(

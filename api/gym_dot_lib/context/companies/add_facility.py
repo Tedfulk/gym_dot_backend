@@ -23,6 +23,7 @@ select(
 
 class AddFacilityResult(BaseModel):
     id: UUID
+    name: str
 
 
 async def add_facility(

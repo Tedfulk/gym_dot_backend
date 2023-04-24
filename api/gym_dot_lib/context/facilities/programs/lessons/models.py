@@ -1,8 +1,8 @@
 from datetime import date, time
-from typing import Annotated
+from typing import Optional
 from uuid import UUID
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel
 
 
 class LessonUpdates(BaseModel):
@@ -11,7 +11,7 @@ class LessonUpdates(BaseModel):
     class_dates: list[date] | None
     class_times: list[time] | None
     len_of_class_time: int | None
-    active: bool | None
+    active: Optional[bool] = True
     max_attendees: int | None
     min_attendees: int | None
     waitlist: int | None

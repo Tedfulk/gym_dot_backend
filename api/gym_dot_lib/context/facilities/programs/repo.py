@@ -115,16 +115,16 @@ class ProgramRepo:
         *,
         program_id: UUID,
         lesson_id: UUID,
-    ) -> Program:
+    ) -> ProgramWithLessons:
         resp = await executor.query_single_json(
             ADD_LESSON,
             program_id=program_id,
             lesson_id=lesson_id,
         )
         parsed = await asyncio.to_thread(
-            parse_raw_as, Program, resp, json_loads=orjson.loads
+            parse_raw_as, ProgramWithLessons, resp, json_loads=orjson.loads
         )
-        return cast(Program, parsed)
+        return cast(ProgramWithLessons, parsed)
 
     @staticmethod
     async def remove_lesson(
@@ -148,15 +148,15 @@ class ProgramRepo:
         executor: AsyncIOExecutor,
         *,
         program_id: UUID,
-    ) -> ProgramWithLessons:
-        resp = await executor.query_json(
+    ) -> ProgramWithLessons | None:
+        resp = await executor.query_single_json(
             GET_LESSONS,
             program_id=program_id,
         )
         parsed = await asyncio.to_thread(
-            parse_raw_as, ProgramWithLessons, resp, json_loads=orjson.loads
+            parse_raw_as, ProgramWithLessons | None, resp, json_loads=orjson.loads
         )
-        return cast(ProgramWithLessons, parsed)
+        return cast(ProgramWithLessons | None, parsed)
 
     @staticmethod
     async def create_program_with_lesson(

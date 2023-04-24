@@ -1,3 +1,4 @@
+from typing import Optional
 from uuid import UUID
 
 from pydantic import BaseModel
@@ -10,7 +11,7 @@ class ProgramUpdates(BaseModel):
 
     name: str
     description: str | None
-    active: bool | None
+    active: Optional[bool] = True
 
 
 class NewProgram(ProgramUpdates):
@@ -23,9 +24,13 @@ class Program(NewProgram):
     id: UUID
 
 
-class ProgramWithLessons(Program):
+class ProgramWithLessons(BaseModel):
     """Program with 'lesson' field"""
 
+    id: UUID
+    name: str
+    description: str | None
+    active: bool | None
     lesson: list[Lesson]
 
 
