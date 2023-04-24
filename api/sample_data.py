@@ -135,9 +135,32 @@ async def sample_lesson():
 
 
 @pytest.fixture
-async def sample_program_with_lesson(sample_program: Program, sample_lesson: Lesson):
-    program_with_lesson = await add_lesson(
-        executor=client, program_id=sample_program.id, lessons_id=sample_lesson.id
+async def sample_program_with_lesson():
+    program_with_lesson = await ProgramRepo.create_program_with_lesson(
+        executor=client,
+        new_program=NewProgram(
+            name="Sample Program",
+            description="Sample Description",
+        ),
+        new_lesson=NewLesson(
+            class_dates=[
+                date.today(),
+                date.today() + timedelta(days=1),
+                date.today() + timedelta(days=2),
+            ],
+            class_times=[
+                time(6, 0),
+                time(9, 30),
+                time(12, 0),
+                time(16, 30),
+                time(17, 30),
+                time(18, 30),
+            ],
+            len_of_class_time=60,
+            max_attendees=20,
+            min_attendees=1,
+            waitlist=10,
+        ),
     )
     if program_with_lesson is not None:
         yield program_with_lesson

@@ -61,7 +61,7 @@ async def test_delete_company():
     assert deleted_company is not None
 
 
-async def test_get_facilities(sample_company_with_facility):
+async def test_get_facilities(sample_company_with_facility: CompanyWithFacilities):
     facilities = await CompanyRepo.get_facilities(
         executor=client, company_id=sample_company_with_facility.id
     )
