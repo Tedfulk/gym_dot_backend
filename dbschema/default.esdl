@@ -5,6 +5,7 @@ module default {
         };
         multi link facility -> Facilities {
             constraint exclusive;
+            on target delete allow;
         };
     };
 

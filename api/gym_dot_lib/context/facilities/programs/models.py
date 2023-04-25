@@ -10,7 +10,7 @@ class ProgramUpdates(BaseModel):
     """Fields on the Program Model that should be updatable."""
 
     name: str
-    description: str | None
+    description: Optional[str] = ""
     active: Optional[bool] = True
 
 
@@ -29,8 +29,8 @@ class ProgramWithLessons(BaseModel):
 
     id: UUID
     name: str
-    description: str | None
-    active: bool | None
+    description: Optional[str] = ""
+    active: Optional[bool] = True
     lesson: list[Lesson]
 
 
