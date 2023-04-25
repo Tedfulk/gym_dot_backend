@@ -8,17 +8,8 @@ import pytest
 
 from api.gym_dot_lib.context.companies import CompanyRepo, NewCompany
 from api.gym_dot_lib.context.facilities import FacilityRepo, NewFacility
-from api.gym_dot_lib.context.facilities.programs import (
-    NewProgram,
-    Program,
-    ProgramRepo,
-    add_lesson,
-)
-from api.gym_dot_lib.context.facilities.programs.lessons import (
-    Lesson,
-    LessonRepo,
-    NewLesson,
-)
+from api.gym_dot_lib.context.facilities.programs import NewProgram, ProgramRepo
+from api.gym_dot_lib.context.facilities.programs.lessons import LessonRepo, NewLesson
 from api.gym_dot_lib.context.main import client
 
 

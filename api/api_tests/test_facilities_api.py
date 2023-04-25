@@ -1,16 +1,10 @@
 import pytest
 
 from api.gym_dot_lib.context.facilities import (
-    AllFacilitiesResult,
-    CreateFacilityResult,
     DeleteFacilityResult,
-    GetFacilityResult,
-    UpdateFacilityResult,
-    all_facilities,
-    create_facility,
-    delete_facility,
-    get_facility,
-    update_facility,
+    Facility,
+    FacilityUpdates,
+    NewFacility,
 )
 from api.main import async_client as AC
 
@@ -29,28 +23,61 @@ async def test_get_all_facilities():
     assert len(response.json()) > 0
 
 
-async def test_get_facility_by_id(sample_facility: CreateFacilityResult):
+async def test_get_facility_by_id(sample_facility: Facility):
     """GET /facilities/{facility_id}"""
     response = await AC.get(f"/facilities/{sample_facility.id}")
     assert response.status_code == 200
-    assert GetFacilityResult(**response.json()) == sample_facility.dict()
+    assert Facility(**response.json()) == sample_facility.dict()
 
 
 async def test_post_facility():
     """POST /facilities"""
-    facility_dict = {
-        "name": "Sample Facility",
-        "address": "1234 Main St",
-        "city": "Cromwell",
-        "state": "IN",
-    }
-    new_facility = await AC.post(
-        f"/facilities",
-        json={**facility_dict},
+    new_facility = NewFacility(
+        name="Sample Facility",
+        address="1234 Main St",
+        city="Cromwell",
+        state="IN",
     )
-    print(new_facility.json())
-    assert new_facility.status_code == 200
-    new_facility_id = new_facility.json()
+    resp = await AC.post(
+        "/facilities",
+        data=new_facility.json(),
+    )
+    assert resp.status_code == 200
+    new_facility_id = resp.json()["id"]
     facility = await AC.get(f"/facilities/{new_facility_id}")
-    assert new_facility.status_code == 200
-    assert new_facility.json() == facility.json()
+    assert resp.json() == facility.json()
+    await AC.delete(f"/facilities/{new_facility_id}")
+
+
+async def test_put_facility_by_id(sample_facility: Facility):
+    """PUT /facilities/{facility_id}"""
+    updates = FacilityUpdates(
+        **{**sample_facility.dict(), "name": sample_facility.name + "(Updated)"}
+    )
+    updated_facility = await AC.put(
+        f"/facilities/{sample_facility.id}",
+        data=updates.json(),
+    )
+    updated_facility_id = updated_facility.json()["id"]
+    facility = await AC.get(f"/facilities/{updated_facility_id}")
+    assert updated_facility.status_code == 200
+    assert Facility(**updated_facility.json()) == Facility(**facility.json())
+
+
+async def test_delete_facility():
+    """DELETE /facilities/{facility_id}"""
+    new_facility = NewFacility(
+        name="Sample Facility",
+        address="1234 Main St",
+        city="Cromwell",
+        state="IN",
+    )
+    resp = await AC.post(
+        "/facilities",
+        data=new_facility.json(),
+    )
+    deleted_facility = await AC.delete(f"/facilities/{resp.json()['id']}")
+    assert deleted_facility.status_code == 200
+    assert DeleteFacilityResult(**deleted_facility.json()) == DeleteFacilityResult(
+        **resp.json()
+    )

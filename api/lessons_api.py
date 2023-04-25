@@ -1,80 +1,66 @@
-from datetime import date, time
 from uuid import UUID
 
 from fastapi import APIRouter
 from gym_dot_lib.context.facilities.programs.lessons import (
-    AllLessonsResult,
-    CreateLessonResult,
     DeleteLessonResult,
-    GetLessonResult,
-    UpdateLessonResult,
-    all_lessons,
-    create_lesson,
-    delete_lesson,
-    get_lesson,
-    update_lesson,
+    Lesson,
+    LessonRepo,
+    LessonUpdates,
+    NewLesson,
 )
 from gym_dot_lib.context.main import client
 
 app = APIRouter()
 
 
-@app.get("", response_model=list[AllLessonsResult])
+@app.get("", response_model=list[Lesson])
 async def get_all_lessons():
-    return await all_lessons(executor=client)
+    return await LessonRepo.all_lessons(executor=client)
 
 
-@app.get("/{lesson_id}", response_model=GetLessonResult)
+@app.get("/{lesson_id}", response_model=Lesson)
 async def get_lesson_by_id(lesson_id: UUID):
-    return await get_lesson(executor=client, lesson_id=lesson_id)
+    return await LessonRepo.get(executor=client, lesson_id=lesson_id)
 
 
-@app.post("", response_model=CreateLessonResult)
+@app.post("", response_model=Lesson)
 async def post_lesson(
-    class_dates: list[date],
-    class_times: list[time],
-    len_of_class_time: int,
-    active: bool,
-    max_attendees: int,
-    min_attendees: int,
-    waitlist: int,
+    new_lesson: NewLesson,
 ):
-    return await create_lesson(
+    return await LessonRepo.create(
         executor=client,
-        class_dates=class_dates,
-        class_times=class_times,
-        len_of_class_time=len_of_class_time,
-        active=active,
-        max_attendees=max_attendees,
-        min_attendees=min_attendees,
-        waitlist=waitlist,
+        new_lesson=NewLesson(
+            class_dates=new_lesson.class_dates,
+            class_times=new_lesson.class_times,
+            len_of_class_time=new_lesson.len_of_class_time,
+            active=new_lesson.active,
+            max_attendees=new_lesson.max_attendees,
+            min_attendees=new_lesson.min_attendees,
+            waitlist=new_lesson.waitlist,
+        ),
     )
 
 
-@app.put("/{lesson_id}", response_model=UpdateLessonResult)
+@app.put("/{lesson_id}", response_model=Lesson)
 async def put_lesson_by_id(
     lesson_id: UUID,
-    class_dates: list[date],
-    class_times: list[time],
-    len_of_class_time: int,
-    active: bool,
-    max_attendees: int,
-    min_attendees: int,
-    waitlist: int,
+    updates: LessonUpdates,
 ):
-    return await update_lesson(
+    return await LessonRepo.update(
         executor=client,
         lesson_id=lesson_id,
-        class_dates=class_dates,
-        class_times=class_times,
-        len_of_class_time=len_of_class_time,
-        active=active,
-        max_attendees=max_attendees,
-        min_attendees=min_attendees,
-        waitlist=waitlist,
+        updates=LessonUpdates(
+            class_dates=updates.class_dates,
+            class_times=updates.class_times,
+            len_of_class_time=updates.len_of_class_time,
+            active=updates.active,
+            max_attendees=updates.max_attendees,
+            min_attendees=updates.min_attendees,
+            waitlist=updates.waitlist,
+        ),
     )
 
 
 @app.delete("/{lesson_id}", response_model=DeleteLessonResult)
 async def delete_lesson_by_id(lesson_id: UUID):
-    return await delete_lesson(executor=client, lesson_id=lesson_id)
+    return await LessonRepo.delete(executor=client, lesson_id=lesson_id)
