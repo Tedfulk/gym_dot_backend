@@ -68,7 +68,9 @@ async def test_delete_program_by_id():
     assert DeleteProgramResult(**resp.json())
 
 
-async def test_get_all_lessons(sample_program_with_lesson: ProgramWithLessons):
+async def test_get_all_lessons_for_program(
+    sample_program_with_lesson: ProgramWithLessons,
+):
     """GET /programs/{program_id}/lessons"""
     response = await AC.get(f"/programs/{sample_program_with_lesson.id}/lessons")
     assert response.status_code == 200

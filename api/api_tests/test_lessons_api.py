@@ -3,7 +3,6 @@ import pytest
 from api.gym_dot_lib.context.facilities.programs.lessons import (
     DeleteLessonResult,
     Lesson,
-    LessonRepo,
     LessonUpdates,
     NewLesson,
 )

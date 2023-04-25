@@ -8,9 +8,7 @@ from api.gym_dot_lib.context.facilities.programs import (
     ProgramUpdates,
     ProgramWithLessons,
 )
-from api.gym_dot_lib.context.facilities.programs.create_program_with_lesson import (
-    CreateProgramWithLessonResult,
-)
+from api.gym_dot_lib.context.facilities.programs.lessons import Lesson
 from api.gym_dot_lib.context.main import client
 from api.sample_data import *
 
