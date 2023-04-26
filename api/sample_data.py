@@ -132,6 +132,7 @@ async def sample_program_with_lesson():
         new_program=NewProgram(
             name="Sample Program",
             description="Sample Description",
+            active=True,
         ),
         new_lesson=NewLesson(
             class_dates=[
@@ -147,6 +148,7 @@ async def sample_program_with_lesson():
                 time(17, 30),
                 time(18, 30),
             ],
+            active=True,
             len_of_class_time=60,
             max_attendees=20,
             min_attendees=1,

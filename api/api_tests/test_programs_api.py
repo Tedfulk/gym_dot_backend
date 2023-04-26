@@ -34,7 +34,7 @@ async def test_get_program_by_id(sample_program: Program):
 
 async def test_post_program():
     """POST /programs"""
-    new_program = NewProgram(name="Test Program")
+    new_program = NewProgram(name="Test Program", description="Test", active=True)
     resp = await AC.post("/programs", data=new_program.json())
     program_id = resp.json()["id"]
     program = await AC.get(f"/programs/{program_id}")
@@ -60,7 +60,7 @@ async def test_put_program_by_id(sample_program: Program):
 
 async def test_delete_program_by_id():
     """DELETE /programs/{program_id}"""
-    new_program = NewProgram(name="Test Program")
+    new_program = NewProgram(name="Test Program", description="Test", active=True)
     resp = await AC.post("/programs", data=new_program.json())
     program_id = resp.json()["id"]
     resp = await AC.delete(f"/programs/{program_id}")

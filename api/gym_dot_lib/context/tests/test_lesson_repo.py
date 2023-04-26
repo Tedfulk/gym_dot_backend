@@ -70,6 +70,7 @@ async def test_delete_lesson():
                 time(18, 30),
             ],
             len_of_class_time=60,
+            active=True,
             max_attendees=20,
             min_attendees=1,
             waitlist=10,

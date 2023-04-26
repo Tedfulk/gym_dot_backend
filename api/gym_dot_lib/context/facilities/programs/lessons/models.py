@@ -1,5 +1,4 @@
 from datetime import date, time
-from typing import Optional
 from uuid import UUID
 
 from pydantic import BaseModel
@@ -11,7 +10,7 @@ class LessonUpdates(BaseModel):
     class_dates: list[date] | None
     class_times: list[time] | None
     len_of_class_time: int | None
-    active: Optional[bool] = True
+    active: bool | None
     max_attendees: int | None
     min_attendees: int | None
     waitlist: int | None
