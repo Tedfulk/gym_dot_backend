@@ -92,8 +92,10 @@ module default {
         }
         required property oauth_name -> str;
         required property account_id -> str;
-        required property access_token -> str;
-        property expires_at -> int32;
+        required property oauth_access_token -> str;
+        property expires_at -> datetime {
+            default := (datetime_current() + <duration>'24 hours');
+        };
         property refresh_token -> str;
 
     }

@@ -1,5 +1,5 @@
 import itertools as iter
-from typing import Optional, Type
+from typing import Type
 
 from gym_dot_lib.context.utils.str_enum import StrEnum
 from pydantic import BaseModel
@@ -12,6 +12,7 @@ class Tag(StrEnum):
     facilities = "Facilities"
     programs = "Programs"
     lessons = "Lessons"
+    Users = "Users"
 
 
 def servers():
@@ -46,7 +47,7 @@ def description(*tags: Type[StrEnum]):
 
 class ErrorDetail(BaseModel):
     msg: str
-    loc: Optional[list[str]] = None
+    loc: list[str] | None
 
 
 class ErrorModel(BaseModel):
@@ -55,7 +56,7 @@ class ErrorModel(BaseModel):
     detail: list[ErrorDetail]
 
 
-def error(*, msg: str, loc: Optional[list[str]] = None):
+def error(*, msg: str, loc: list[str] | None):
     """Helper function used to format a custom exception's response body into a format that matches the default FastAPI behavior.
 
     Example:
