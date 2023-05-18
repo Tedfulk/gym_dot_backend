@@ -3,7 +3,7 @@ from uuid import UUID
 from fastapi import APIRouter
 from gym_dot_lib.context.main import client
 
-from api.gym_dot_lib.context.facilities.programs.lessons import (
+from gym_dot_lib.context.facilities.programs.lessons import (
     DeleteLessonResult,
     Lesson,
     LessonRepo,

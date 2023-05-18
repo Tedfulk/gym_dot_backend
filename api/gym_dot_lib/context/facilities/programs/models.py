@@ -3,7 +3,7 @@ from uuid import UUID
 
 from pydantic import BaseModel
 
-from api.gym_dot_lib.context.facilities.programs.lessons import Lesson
+from gym_dot_lib.context.facilities.programs.lessons import Lesson
 
 
 class ProgramUpdates(BaseModel):

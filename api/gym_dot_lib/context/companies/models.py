@@ -2,7 +2,7 @@ from uuid import UUID
 
 from pydantic import BaseModel
 
-from api.gym_dot_lib.context.facilities import Facility
+from gym_dot_lib.context.facilities import Facility
 
 
 class CompanyUpdates(BaseModel):

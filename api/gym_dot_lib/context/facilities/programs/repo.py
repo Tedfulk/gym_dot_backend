@@ -6,7 +6,7 @@ import orjson
 from edgedb import AsyncIOExecutor
 from pydantic import parse_raw_as
 
-from api.gym_dot_lib.context.facilities.programs.lessons import NewLesson
+from gym_dot_lib.context.facilities.programs.lessons import NewLesson
 
 from .models import (
     DeleteProgramResult,
