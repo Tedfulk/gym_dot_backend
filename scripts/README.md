@@ -7,3 +7,4 @@
 3. chmod +x scripts/bootstrap__spiffy
 4. Run `pipenv run bootstrap` from root of the repo
 5. Run `pipenv run format` 
+6. Don't forget to `pipenv install isort black --dev`
